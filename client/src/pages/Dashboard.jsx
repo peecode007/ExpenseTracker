@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ModeToggle } from '@/components/ModeToggle';
 import SideNavbar from '@/layout/SideNavbar';
 import { TbPigMoney, TbReportMoney } from "react-icons/tb";
-import { CiWallet } from "react-icons/ci";
+import { PiWalletBold } from "react-icons/pi";
 import BudgetChart from '@/components/BudgetChart';
 
 const App = () => {
@@ -90,21 +90,21 @@ const App = () => {
                         <div className="flex w-full">
                             <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full gap-4">
                                 <div className="bg-slate-100 dark:bg-gray-800 shadow-lg rounded-lg flex items-center p-4 pt-0">
-                                    <TbPigMoney size={50} className="mr-4 text-gray-800 dark:text-gray-100" />
+                                    <TbPigMoney size={50} className="mr-4 text-gray-800 dark:text-gray-100"  fill='cyan'/>
                                     <div>
                                         <h1 className="text-lg font-bold text-gray-800 dark:text-gray-100 ml-10">Total Budget</h1>
                                         <p className="text-2xl font-bold text-gray-800 dark:text-gray-100 ml-10">₹ {totalBudget}</p>
                                     </div>
                                 </div>
                                 <div className="bg-slate-100 dark:bg-gray-800 shadow-lg rounded-lg flex items-center p-4 pt-0">
-                                    <TbReportMoney size={50} className="mr-4 text-gray-800 dark:text-gray-100" />
+                                    <TbReportMoney size={50} className="mr-4 text-gray-800 dark:text-gray-100" fill='cyan'/>
                                     <div>
                                         <h1 className="text-lg font-bold text-gray-800 dark:text-gray-100 ml-10">Expenses</h1>
                                         <p className="text-2xl font-bold text-gray-800 dark:text-gray-100 ml-10">₹ {spentBudget}</p>
                                     </div>
                                 </div>
                                 <div className="bg-slate-100 dark:bg-gray-800 shadow-lg rounded-lg flex items-center p-4 pt-0">
-                                    <CiWallet size={50} className="mr-4 text-gray-800 dark:text-gray-100" />
+                                    <PiWalletBold size={50} className="mr-4 text-gray-800 dark:text-gray-100" fill='cyan'/>
                                     <div>
                                         <h1 className="text-lg font-bold text-gray-800 dark:text-gray-100 ml-10">Remaining</h1>
                                         <p className="text-2xl font-bold text-gray-800 dark:text-gray-100 ml-10">₹ {remainingBudget}</p>

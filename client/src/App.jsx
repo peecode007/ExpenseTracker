@@ -1,7 +1,7 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import reactLogo from './assets/react.svg';
+import viteLogo from '/vite.svg';
+import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
@@ -9,25 +9,27 @@ import { ThemeProvider } from './components/themeProvider';
 import Budgets from './pages/Dashboard/Budgets';
 import Expenses from './pages/Dashboard/Expenses';
 import Update_Budget from './components/Update_Budget';
+import AuthTabs from './pages/Auth/AuthTabs';
+import { ToastProvider } from 'react-hot-toast';
 
 function App() {
-  
-
   return (
     <>
       {/* <AuthProvider> */}
-      <ThemeProvider >
-
-        <BrowserRouter>
-          <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/dashboard' element={<Dashboard />} />
-            <Route path='/dashboard/budgets' element={<Budgets />} />
-            <Route path='/dashboard/budgets/:bid' element={<Update_Budget />} />
-            <Route path='/dashboard/expenses' element={<Expenses />} />
-            {/* <Route path='/about' element={<About />} />
-            <Route path='/contact' element={<ContactUs />} /> */}
-            {/* <Route path='/categories' element={<Categories />} />
+      <ToastProvider>
+        <ThemeProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path='/' element={<Home />} />
+              <Route path='/api/auth/*' element={<AuthTabs />} />
+              <Route path='/dashboard' element={<Dashboard />} />
+              <Route path='/dashboard/budgets' element={<Budgets />} />
+              <Route path='/dashboard/budgets/:bid' element={<Update_Budget />} />
+              <Route path='/dashboard/expenses' element={<Expenses />} />
+              {/* Additional routes can be uncommented and used as needed */}
+              {/* <Route path='/about' element={<About />} />
+            <Route path='/contact' element={<ContactUs />} />
+            <Route path='/categories' element={<Categories />} />
             <Route path='/cart' element={<Cart />} />
             <Route path='/category/:slug' element={<CategoryProduct />} />
             <Route path='/search' element={<Search />} />
@@ -52,12 +54,13 @@ function App() {
             <Route path='/verify-otp' element={<VerifyOTP />} />
             <Route path='/register' element={<Register />} />
             <Route path='/*' element={<Page_Not_Found />} /> */}
-          </Routes>
-        </BrowserRouter>
-      {/* </AuthProvider> */}
-      </ThemeProvider>
+            </Routes>
+          </BrowserRouter>
+          {/* </AuthProvider> */}
+        </ThemeProvider>
+      </ToastProvider>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

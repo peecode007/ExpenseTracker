@@ -5,20 +5,25 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please enter the email."],
         unique: [true, "Please enter a unique email address."],  // corrected the message
-        match: [/.+\@.+\..+/, "Please enter a valid email address."] // added email format validation
+        match: [/.+\@.+\..+/, "Please enter a valid email address."],
+        trim: true,
+        lowercase: true
+    },
+    username: {
+        type: String,
+        required: [true, "Please enter the username."],
+        unique: [true, "Please enter a unique username."],
+        
     },
     password: {
         type: String,
-        required: [true, "Please enter the password."]
+        required: [true, "Please enter a password."],
+        minlength: [6, "Password must be at least 6 characters long."],
     },
-    isAdmin: {
-        type: Boolean,
-        default: false
-    },
-    verifyToken: String,
-    verifyTokenExpiry: Date,
-    forgotPasswordToken: String, 
-    forgotPasswordTokenExpiry: Date
+    // verifyToken: String,
+    // verifyTokenExpiry: Date,
+    // forgotPasswordToken: String, 
+    // forgotPasswordTokenExpiry: Date
 });
 
 // Ensuring the model is not re-compiled if it's already in the models collection

@@ -2,9 +2,12 @@ import express from 'express';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import cors from 'cors';
+import cookieParser from "cookie-parser";
 import budgetRoutes from './routes/budgetRoutes.js';
 import expenseRoutes from './routes/expenseRoutes.js'
 import categoriesRoutes from './routes/categoryRoutes.js'
+import { authRouter } from './routes/authRoutes.js';
+import configureExpressSession from "./middlewares/expressSession.js";
 
 // Make express app
 const app = express();
@@ -18,6 +21,9 @@ connectDB();
 // Middlewares
 app.use(express.json());
 app.use(cors());
+app.use(cookieParser());
+
+configureExpressSession(app);
 
 // Handle OPTIONS requests
 app.options('*', cors());
@@ -28,6 +34,7 @@ app.get('/', (req, res) => {
 });
 
 // Routes
+app.use('/api/auth', authRouter);
 app.use('/dashboard/budgets', budgetRoutes);
 app.use('/dashboard/expenses', expenseRoutes);
 app.use('/dashboard/categories', categoriesRoutes);

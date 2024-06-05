@@ -5,8 +5,8 @@ const Home = () => {
   return (
     <>
       <HomeNavbar />
-      <main>
-        <div className="flex flex-col h-[60vh] items-center justify-center space-y-4 px-4 md:px-0">
+      <main className='h-full'>
+        <div className="flex flex-col h-[100vh] items-center justify-center space-y-4 px-4 md:px-0">
           <span className="font-extrabold text-3xl md:text-5xl text-blue-950 text-center">Manage Your Expenses</span>
           <span className="font-extrabold text-4xl md:text-6xl text-indigo-700 text-center">Control Your Money</span>
           <p className="pt-5 text-lg md:text-xl text-center">

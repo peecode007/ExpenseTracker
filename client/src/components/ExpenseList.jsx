@@ -89,7 +89,7 @@ const ExpenseList = () => {
                 <tbody className={themeClasses.tableBg}>
                     {expenses.map((expense) => (
                         <tr key={expense._id} className={themeClasses.rowHoverBg}>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">{expense.amount}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">₹{expense.amount}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm">{expense.description}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm">{expense.category}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm">{format(new Date(expense.date), 'MMMM d, yyyy')}</td>
