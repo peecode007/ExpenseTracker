@@ -47,11 +47,12 @@ const CreateBudgetExpense = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: 'include',
             });
             const data = await res.json();
-            console.log(data);
+            // console.log(data);
             if (data.success) {
-                toast.success(data.message || "Category retrieved successfully.");
+                // toast.success(data.message || "Category retrieved successfully.");
                 setCategories(data.categories)
             } else {
                 toast.error(data.message || "Error fetching category.");
@@ -69,7 +70,7 @@ const CreateBudgetExpense = () => {
     }, [])
 
     const handleAddExpense = async (e) => {
-        e.preventDefault();
+        // e.preventDefault();
         const host = 'http://localhost:7000';
         try {
             const res = await fetch(`${host}/dashboard/expenses/add/${bid}`, {
@@ -77,10 +78,11 @@ const CreateBudgetExpense = () => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
+                credentials: 'include',
                 body: JSON.stringify(newExpense)
             });
             const data = await res.json();
-            console.log('Add Expense Response:', data);
+            // console.log('Add Expense Response:', data);
             if (data.success) {
                 // setExpenses([...expenses, data.expense]);
                 setNewExpense({
@@ -107,10 +109,11 @@ const CreateBudgetExpense = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: 'include',
                 body: JSON.stringify(newCategory),
             });
             const data = await res.json();
-            console.log(data);
+            // console.log(data);
             if (data.success) {
                 toast.success(data.message || "Category added successfully.");
                 setCategories(data.categories)

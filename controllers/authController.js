@@ -78,20 +78,29 @@ async function loginUser(req, res) {
     }
 }
 
-// async function logoutUser(req, res) {
-//     req.session.destroy(function (err) {
-//         if (err) {
-//             console.log("[UserController/logoutUser] Error: ", err);
-//             return res.status(500).json({
-//                 success: false, message: "Internal server error!"
-//             });
-//         } else {
-//             return res.status(200).json({
-//                 success: true, message: "Logged out!"
-//             });
-//         }
-//     })
-// }
+async function logoutUser(req, res) {
+    req.session.destroy(function (err) {
+        if (err) {
+            console.log("[UserController/logoutUser] Error: ", err);
+            return res.status(500).json({
+                success: false,
+                message: "Internal server error!"
+            });
+        } else {
+            // Clear the cookie
+            res.clearCookie('connect.sid', {
+                path: '/',
+                httpOnly: true,
+                secure: false, // Set to true if using HTTPS
+                sameSite: 'Strict'
+            });
+            return res.status(200).json({
+                success: true,
+                message: "Logged out!"
+            });
+        }
+    });
+}
 
 // async function resetUser(req, res) {
 //     if (!req.body || !req.body.email || !req.body.otp) {
@@ -135,4 +144,4 @@ async function loginUser(req, res) {
 //     }
 // }
 
-export default { createUser, loginUser };
+export default { createUser, loginUser, logoutUser };

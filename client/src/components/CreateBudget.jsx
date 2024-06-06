@@ -70,11 +70,12 @@ const CreateBudget = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: 'include'
             });
             const data = await res.json();
-            console.log(data);
+            // console.log(data);
             if (data.success) {
-                toast.success(data.message || "Category retrieved successfully.");
+                // toast.success(data.message || "Category retrieved successfully.");
                 setCategories(data.categories)
             } else {
                 toast.error(data.message || "Error fetching category.");
@@ -99,15 +100,16 @@ const CreateBudget = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: 'include',
                 body: JSON.stringify(newCategory),
             });
             const data = await res.json();
-            console.log(data);
+            // console.log(data);
             if (data.success) {
                 toast.success(data.message || "Category added successfully.");
                 setCategories(data.categories)
                 getCategories()
-                
+
             } else {
                 toast.error(data.message || "Error adding category.");
             }
@@ -125,12 +127,13 @@ const CreateBudget = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: 'include'
             });
             const data = await res.json();
-            console.log(data);
+            // console.log(data);
             if (data.success) {
-                toast.success(data.message || "Budgets retrieved successfully.");
-                setBudgets(data);
+                // toast.success(data.message || "Budgets retrieved successfully.");
+                setBudgets(data.budgets);
             } else {
                 toast.error(data.message || "Error fetching budgets.");
             }
@@ -139,14 +142,14 @@ const CreateBudget = () => {
             toast.error("Error fetching budgets.");
         }
     };
-    
+
     useEffect(() => {
         getBudgets();
     }, []);
-    
+
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        // e.preventDefault();
         const host = "http://localhost:7000";
         try {
             const res = await fetch(`${host}/dashboard/budgets/add-budget`, {
@@ -154,10 +157,11 @@ const CreateBudget = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: 'include',
                 body: JSON.stringify({ ...credentials, date: credentials.date.toISOString() }),
             });
             const data = await res.json();
-            console.log(data);
+            // console.log(data);
 
             if (data.success) {
                 toast.success(data.message || "Budget created successfully.");
@@ -167,6 +171,7 @@ const CreateBudget = () => {
                     category: '',
                     date: new Date()
                 });
+                getBudgets()
             }
         } catch (error) {
             console.error('Error creating budget:', error);
@@ -194,7 +199,7 @@ const CreateBudget = () => {
         <div className="p-5">
             <div >
                 <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-                    <DialogTrigger  onClick={handleOpenModal}>
+                    <DialogTrigger onClick={handleOpenModal}>
                         <div>
                             <h1>+</h1>
                             <div>Add budget</div>
@@ -228,7 +233,7 @@ const CreateBudget = () => {
                                         />
                                     </div>
                                     <div className="flex flex-col">
-                                    <label htmlFor="category" className='font-medium mb-2'>Category</label>
+                                        <label htmlFor="category" className='font-medium mb-2'>Category</label>
                                         <Select onValueChange={handleCategoryChange} value={category} required>
                                             <SelectTrigger id="category" className={themeClasses.inputBg}>
                                                 <SelectValue placeholder="Select" />

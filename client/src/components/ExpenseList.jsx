@@ -16,7 +16,9 @@ const ExpenseList = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: 'include',
             });
+
             const data = await res.json();
             console.log(data);
             if (data.success) {
@@ -31,6 +33,30 @@ const ExpenseList = () => {
         }
     };
 
+    const getExpensesForBudget = async (budgetId) => {
+        const host = 'http://localhost:7000';
+        try {
+            const res = await fetch(`${host}/dashboard/expenses/${budgetId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials:'include',
+            });
+            const data = await res.json();
+            // console.log(data);
+            if (data.success) {
+                toast.success("Expense added successfully.")
+                return data.expenses;
+            } else {
+                return [];
+            }
+        } catch (error) {
+            console.error('Error getting expenses:', error);
+            return [];
+        }
+    };
+
     const handleAddExpense = async (newExpense) => {
         try {
             const host = 'http://localhost:7000';
@@ -39,14 +65,15 @@ const ExpenseList = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: 'include',
                 body: JSON.stringify(newExpense),
             });
             const data = await res.json();
-            console.log(data);
+            // console.log(data);
             if (data.success) {
                 toast.success(data.message || "Expense added successfully.");
                 // Trigger fetching expenses again after adding a new expense
-                getExpenses();
+                getExpensesForBudget();
             } else {
                 toast.error(data.message || "Error adding expense.");
             }
@@ -57,7 +84,7 @@ const ExpenseList = () => {
     };
 
     useEffect(() => {
-        getExpenses();
+        getExpensesForBudget();
     }, []);
 
     // Define theme classes based on the current theme

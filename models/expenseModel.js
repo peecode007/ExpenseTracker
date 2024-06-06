@@ -18,13 +18,12 @@ const expenseSchema = new mongoose.Schema({
     budget: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Budget', // This refers to the name of the Budget model
-        required: true
     },
-    // user: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: "User",
-    //     required: true 
-    // },
+    user: {
+        type: mongoose.Schema.Types.String,
+        ref: "User",
+        required: true 
+    },
     category: {
         type: mongoose.Schema.Types.String,
         ref: "ExpenseCategories",

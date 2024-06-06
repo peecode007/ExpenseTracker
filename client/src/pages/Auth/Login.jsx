@@ -3,13 +3,40 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import  toast  from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate()
 
-  const handleLogin = () => {
-    console.log('Login:', { email, password });
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    const host = 'http://localhost:7000';
+    try {
+      const response = await fetch(`${host}/api/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+        credentials: 'include', // Include credentials to allow cookies
+      });
+
+      const data = await response.json();
+      console.log(data);
+
+      if (data.success) {
+        toast.success(data.message);
+        navigate('/dashboard')
+      } else {
+        toast.error(data.message);
+      }
+
+    } catch (error) {
+      toast.error(`Error during login: ${error.message}`);
+    }
   };
 
   return (

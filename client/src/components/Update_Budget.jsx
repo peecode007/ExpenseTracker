@@ -29,9 +29,15 @@ const BudgetDetail = () => {
     const getBudgetDetails = async () => {
         const host = 'http://localhost:7000';
         try {
-            const res = await fetch(`${host}/dashboard/budgets/${bid}`);
+            const res = await fetch(`${host}/dashboard/budgets/${bid}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+            });
             const data = await res.json();
-            console.log('Budget Details Response:', data);
+            // console.log('Budget Details Response:', data);
             if (data.success) {
                 setBudget(data.budget);
             } else {
@@ -47,9 +53,15 @@ const BudgetDetail = () => {
     const getExpenses = async () => {
         const host = 'http://localhost:7000';
         try {
-            const res = await fetch(`${host}/dashboard/expenses/${bid}`);
+            const res = await fetch(`${host}/dashboard/expenses/${bid}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+            });
             const data = await res.json();
-            console.log('Expenses Response:', data);
+            // console.log('Expenses Response:', data);
             if (data.success) {
                 setExpenses(data.expenses);
                 setLoading(false);
@@ -77,11 +89,12 @@ const BudgetDetail = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: 'include',
             });
             const data = await res.json();
-            console.log(data);
+            // console.log(data);
             if (data.success) {
-                toast.success(data.message || "Category retrieved successfully.");
+                // toast.success(data.message || "Category retrieved successfully.");
                 setCategories(data.categories);
             } else {
                 toast.error(data.message || "Error fetching category.");
@@ -113,10 +126,11 @@ const BudgetDetail = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: 'include',
                 body: JSON.stringify(newCategory),
             });
             const data = await res.json();
-            console.log(data);
+            // console.log(data);
             if (data.success) {
                 toast.success(data.message || "Category added successfully.");
                 setCategories(data.categories);
@@ -139,10 +153,11 @@ const BudgetDetail = () => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
+                credentials: 'include',
                 body: JSON.stringify(budget)
             });
             const data = await res.json();
-            console.log(data);
+            // console.log(data);
             if (data.success) {
                 toast.success(data.message || 'Budget updated successfully');
                 setNewBudget(data.budget);

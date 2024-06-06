@@ -6,16 +6,17 @@ import {
     getBudgetCategoryController,
     getExpenseCategoryController
 } from '../controllers/categoryController.js';
+import authenticateSession from '../middlewares/auth.js';
 
 const router = express.Router();
 
-router.post('/add-budget-categories', addBudgetCategoryController);
+router.post('/add-budget-categories', authenticateSession ,addBudgetCategoryController);
 
-router.get('/budget-categories', getBudgetCategoryController);
+router.get('/budget-categories', authenticateSession ,getBudgetCategoryController);
 
-router.post('/add-expense-categories', addExpenseCategoryController);
+router.post('/add-expense-categories', authenticateSession ,addExpenseCategoryController);
 
-router.get('/expense-categories', getExpenseCategoryController);
+router.get('/expense-categories', authenticateSession ,getExpenseCategoryController);
 
 
 export default router;

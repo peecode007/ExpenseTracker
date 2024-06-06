@@ -1,13 +1,41 @@
 import React from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { useTheme } from '@/components/themeProvider';
+import toast from 'react-hot-toast';
+import { CiLogout } from "react-icons/ci";
 
 const SideNavbar = () => {
     const location = useLocation();
     const { theme } = useTheme();
-    
+    const navigate = useNavigate()
+
     const isActive = (pathname) => location.pathname === pathname ? 'bg-indigo-400 text-white' : '';
-    
+
+    const handleLogout = async () => {
+        const host = 'http://localhost:7000';
+        try {
+            const response = await fetch(`${host}/api/auth/logout`, {
+                method: 'POST',
+                credentials: 'include', // Include credentials to allow cookies
+            });
+
+            const data = await response.json();
+            console.log(data);
+
+            if (data.success) {
+                // Handle successful logout
+                navigate('/api/auth/login');
+                toast.success("Logged Out Successfully.")
+            } else {
+                // Handle unsuccessful logout
+                console.error('Logout failed:', data.message);
+            }
+
+        } catch (error) {
+            console.error('Error during logout:', error.message);
+        }
+    };
+
     return (
         <div className={`p-5 h-full ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-blue-50 text-black'}`}>
             <Link to="/">
@@ -15,7 +43,7 @@ const SideNavbar = () => {
                     <img src={theme === 'dark' ? '/logo2.svg' : '/logo.svg'} alt="Logo" width={190} height={150} className="bg-transparent" />
                 </div>
             </Link>
-            <div className="flex flex-col py-3 gap-5">
+            <div className="flex flex-col py-3 gap-5 h-[90vh] justify-between">
                 <Link to="/dashboard">
                     <div className={`flex items-center p-5 hover:bg-indigo-400 cursor-pointer shadow-sm rounded-md gap-2 ${theme === 'dark' ? 'border-2 border-white shadow-md' : 'bg-blue-50 text-black border-2 border-gray-200'} ${isActive('/dashboard')}`}>
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
@@ -40,15 +68,19 @@ const SideNavbar = () => {
                         <h2 className="text-xl">Expenses</h2>
                     </div>
                 </Link>
-                <Link to="/settings">
-                    <div className={`flex items-center p-5 hover:bg-indigo-400 cursor-pointer shadow-sm rounded-md gap-2 ${theme === 'dark' ? 'border-2 border-white shadow-md' : 'bg-blue-50 text-black border-2 border-gray-200'} ${isActive('/settings')}`}>
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
-                            <path d="M400-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM80-160v-112q0-33 17-62t47-44q51-26 115-44t141-18h14q6 0 12 2-8 18-13.5 37.5T404-360h-4q-71 0-127.5 18T180-306q-9 5-14.5 14t-5.5 20v32h252q6 21 16 41.5t22 38.5H80Zm560 40-12-60q-12-5-22.5-10.5T584-204l-58 18-40-68
-                        46-40q-2-14-2-26t2-26l-46-40 40-68 58 18q11-8 21.5-13.5T732-180l-12 60h-80Zm40-120q33 0 56.5-23.5T760-320q0-33-23.5-56.5T680-400q-33 0-56.5 23.5T600-320q0 33 23.5 56.5T680-240ZM400-560q33 0 56.5-23.5T480-640q0-33-23.5-56.5T400-720q-33 0-56.5 23.5T320-640q0 33 23.5 56.5T400-560Zm0-80Zm12 400Z" />
-                        </svg>
-                        <h2 className="text-xl">Settings</h2>
-                    </div>
-                </Link>
+            <div className="mt-auto ">
+                <button
+                    className={`flex items-end p-3 hover:bg-indigo-400 cursor-pointer shadow-sm rounded-md gap-2 
+        ${theme === 'dark' ? 'border-2 border-white shadow-md' : 'bg-blue-50 text-black border-2 border-gray-200'}`}
+                    onClick={handleLogout}
+                    style={{ fontSize: '0.75rem' }}
+                >
+
+                    <CiLogout />
+
+                    <h2 className="text-md font-bold">Logout</h2>
+                </button>
+            </div>
             </div>
         </div>
     );

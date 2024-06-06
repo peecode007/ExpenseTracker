@@ -68,11 +68,12 @@ const CreateExpense = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: 'include',
             });
             const data = await res.json();
-            console.log(data);
+            // console.log(data);
             if (data.success) {
-                toast.success(data.message || "Category retrieved successfully.");
+                // toast.success(data.message || "Category retrieved successfully.");
                 setCategories(data.categories)
             } else {
                 toast.error(data.message || "Error fetching category.");
@@ -86,7 +87,6 @@ const CreateExpense = () => {
     
     useEffect(() => {
         getCategories();
-
     }, [])
 
     // Define handleAddCategory function to handle adding new categories
@@ -98,10 +98,11 @@ const CreateExpense = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: 'include',
                 body: JSON.stringify(newCategory),
             });
             const data = await res.json();
-            console.log(data);
+            // console.log(data);
             if (data.success) {
                 toast.success(data.message || "Category added successfully.");
                 setCategories(data.categories)
@@ -125,11 +126,12 @@ const CreateExpense = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: 'include',
             });
             const data = await res.json();
             console.log(data);
             if (data.success) {
-                toast.success(data.message || "Expenses retrieved successfully.");
+                // toast.success(data.message || "Expenses retrieved successfully.");
                 setExpenses(data.expenses);
             } else {
                 toast.error(data.message || "Error fetching expenses.");
@@ -147,7 +149,7 @@ const CreateExpense = () => {
 
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        // e.preventDefault();
         try {
             const host = "http://localhost:7000";
             const res = await fetch(`${host}/dashboard/expenses/add-expense`, {
@@ -155,10 +157,11 @@ const CreateExpense = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: 'include',
                 body: JSON.stringify({ ...credentials, date: credentials.date.toISOString() }),
             });
             const data = await res.json();
-            console.log(data)
+            // console.log(data)
             if (data.success) {
                 toast.success(data.message || "Expense created successfully.");
                 setCredentials({

@@ -3,6 +3,7 @@ import CreateBudget from './CreateBudget';
 import { useTheme } from '@/components/themeProvider';
 import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const BudgetList = () => {
     const { theme } = useTheme();
@@ -17,9 +18,10 @@ const BudgetList = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials:'include',
             });
             const data = await res.json();
-            console.log(data);
+            // console.log(data);
             if (data.success) {
                 const budgetsWithExpenses = await Promise.all(
                     data.budgets.map(async (budget) => {
@@ -45,10 +47,12 @@ const BudgetList = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials:'include',
             });
             const data = await res.json();
-            console.log(data);
+            // console.log(data);
             if (data.success) {
+                
                 return data.expenses;
             } else {
                 return [];
@@ -93,7 +97,7 @@ const BudgetList = () => {
                 </div>
                 {budgets.length > 0 ? (
                     budgets.map((budget) => {
-                        const usedPercentage = Math.min(budget.used / budget.budget * 100, 100);
+                        const usedPercentage = Math.min((budget.used / budget.budget) * 100, 100);
                         const remaining = budget.budget - budget.used;
 
                         return (
@@ -108,7 +112,6 @@ const BudgetList = () => {
                                         <p className="text-xs">{format(new Date(budget.date), 'MMMM do, yyyy')}</p>
                                     </div>
                                     <div className="relative h-3 rounded-full overflow-hidden mb-1">
-
                                         <div className={`absolute inset-0 ${themeClasses.progressBg}`}></div>
                                         <div
                                             className={`absolute inset-0 ${themeClasses.progressUsed}`}

@@ -2,27 +2,29 @@ import Expense from "../models/expenseModel.js";
 
 export const addExpenseController = async (req, res) => {
     try {
-        const { amount, description, date, category} = req.body;
+        const { amount, description, date, category } = req.body;
+        const { user } = req.session;
 
         // Simple validation
-        if (!amount || !description || !date || !category ) {
+        if (!amount || !description || !date || !category || !user) {
             return res.status(400).json({ error: 'All fields are required' });
         }
 
-        // Create a new budget document
+        // Create a new expense document
         const newExpense = new Expense({
             amount,
             description,
             date,
             category,
+            user: user.email // Assuming email is the unique identifier
         });
 
-        // Save the budget to the database
+        // Save the expense to the database
         await newExpense.save();
 
         // Return a success response
         return res.status(201).json({
-            success : true,
+            success: true,
             message: 'Expense created successfully',
             newExpense
         });
@@ -40,39 +42,43 @@ export const addExpenseController = async (req, res) => {
 
 export const getExpenseController = async (req, res) => {
     try {
-        // Get all the expenses from the database
-        const expenses = await Expense.find({});
-        res.status(201).json({
+        const { user } = req.session;
+
+        const expenses = await Expense.find({ user: user.email });
+
+        res.status(200).json({
             success: true,
             message: 'Expenses retrieved successfully',
             expenses
         });
-    }catch(error){
+    } catch (error) {
         console.error(error);
         res.status(500).json({
             success: false,
-            message: 'Error getting budget',
+            message: 'Error getting expenses',
             error: error.message
         });
     }
-
-}
+};
 
 export const getExpensesByBudget = async (req, res) => {
     try {
         const { bid } = req.params;
-        const expenses = await Expense.find({ budget: bid }).populate('budget');
-        res.status(200).send({
+        const { user } = req.session;
+
+        const expenses = await Expense.find({ budget: bid, user: user.email });
+
+        res.status(200).json({
             success: true,
-            message: 'Expenses fetched successfully.',
+            message: 'Expenses fetched successfully',
             expenses
         });
     } catch (error) {
-        console.log(error);
-        res.status(400).send({
+        console.error(error);
+        res.status(500).json({
             success: false,
-            message: "An error occurred while getting the expenses. Try again later!",
-            error
+            message: 'Error getting expenses by budget',
+            error: error.message
         });
     }
 };
@@ -80,10 +86,11 @@ export const getExpensesByBudget = async (req, res) => {
 export const addExpensesByBudget = async (req, res) => {
     try {
         const { bid } = req.params;
-        const { amount, description, date, category } = req.body;
+        const { amount, description, date, category, } = req.body;
+        const { user } = req.session;
 
         // Simple validation
-        if (!amount || !description || !date || !category) {
+        if (!amount || !description || !date || !category || !user) {
             return res.status(400).json({ error: 'All fields are required' });
         }
 
@@ -92,19 +99,20 @@ export const addExpensesByBudget = async (req, res) => {
             description,
             date,
             category,
-            budget: bid
+            budget: bid,
+            user: user.email // Assuming email is the unique identifier
         });
 
         await newExpense.save();
 
-        return res.status(201).send({
+        return res.status(201).json({
             success: true,
             message: 'Expense added successfully',
             newExpense
         });
     } catch (error) {
         console.error(error);
-        res.status(500).send({
+        res.status(500).json({
             success: false,
             message: 'Error adding expense',
             error: error.message
