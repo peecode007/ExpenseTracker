@@ -24,7 +24,7 @@ const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:5173',
   'https://expensetracker-frontend-ten.vercel.app/',
-  'https://expensetracker-frontend-n98zosck2-peecode007s-codefield.vercel.app/'
+  'https://expensetracker-frontend-7af6riptq-peecode007s-codefield.vercel.app/'
 ];
 app.use(cors({
   origin: function (origin, callback) {
