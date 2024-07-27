@@ -20,13 +20,14 @@ connectDB();
 
 // Middlewares
 app.use(express.json());
-const allowedOrigins = [
-  'http://localhost:3000',
-  'http://localhost:5173',
-  'https://*.vercel.app'
-  // 'https://expensetracker-frontend-ten.vercel.app/',
-  // 'https://expensetracker-frontend-7af6riptq-peecode007s-codefield.vercel.app/'
-];
+// const allowedOrigins = [
+//   'http://localhost:3000',
+//   'http://localhost:5173',
+//   'https://*.vercel.app'
+//   'https://expensetracker-frontend-ten.vercel.app/',
+//   'https://expensetracker-frontend-7af6riptq-peecode007s-codefield.vercel.app/'
+// ];
+const allowedOrigins = process.env.ALLOWED_ORIGINS
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin) return callback(null, true);
