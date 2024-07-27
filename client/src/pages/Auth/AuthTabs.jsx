@@ -13,7 +13,7 @@ const AuthTabs = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-cover" style={{ backgroundImage: 'url(/bg.jpg)' }}>
 
-      <div className="w-full max-w-md p-8  rounded shadow-lg bg-orange-200" >
+      <div className="w-full max-w-md p-8  rounded shadow-lg bg-none" >
         <Tabs defaultValue={currentTab} value={currentTab} className="w-full">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="signup" onClick={() => navigate('/api/auth/signup')} className="text-center">Signup</TabsTrigger>
