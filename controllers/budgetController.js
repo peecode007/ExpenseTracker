@@ -101,10 +101,10 @@ export const updateBudgetController = async (req, res) => {
 
 export const deleteBudgetController = async (req, res) => {
     try {
-        const { id } = req.params;
+        const { bid } = req.params;
         const { user } = req.session;
 
-        const deletedBudget = await Budget.findOneAndDelete({ _id: id, user: user.email });
+        const deletedBudget = await Budget.findOneAndDelete({ _id: bid, user: user.email });
 
         if (!deletedBudget) {
             return res.status(404).json({ error: 'Budget not found' });
