@@ -25,7 +25,7 @@ app.use(express.json());
 //   'http://localhost:5173',
 //   'https://expensetracker-frontend-ten.vercel.app/',
 // ];
-const allowedOrigins = process.env.ALLOWED_ORIGINS
+const allowedOrigins = process.env.ALLOWED_ORIGINS.split(',');
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin) return callback(null, true);
