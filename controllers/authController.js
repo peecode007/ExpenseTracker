@@ -60,6 +60,7 @@ async function loginUser(req, res) {
         const passwordMatch = await comparePassword(password, user.password)
         if (passwordMatch) {
             req.session.user = { email: email, username: user.username };
+            console.log(req.session)
             return res.status(200).json({
                 success: true, 
                 message: "Logged in!",
