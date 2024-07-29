@@ -20,12 +20,12 @@ connectDB();
 
 // Middlewares
 app.use(express.json());
-const allowedOrigins = [
-  'http://localhost:3000',
-  'http://localhost:5173',
-  'https://expensetracker-frontend-ten.vercel.app/',
-];
-// const allowedOrigins = process.env.ALLOWED_ORIGINS
+// const allowedOrigins = [
+//   'http://localhost:3000',
+//   'http://localhost:5173',
+//   'https://expensetracker-frontend-ten.vercel.app/',
+// ];
+const allowedOrigins = process.env.ALLOWED_ORIGINS
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin) return callback(null, true);
