@@ -7,7 +7,7 @@ const configuerExpressSession = (app) => {
         saveUninitialized: false,
         cookie: {
             httpOnly: true,
-            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+            sameSite: 'None',
             secure: process.env.NODE_ENV === 'production',
             maxAge: 60 * 60 * 1000, // 1 hour
         }
