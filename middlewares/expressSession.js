@@ -1,14 +1,12 @@
 import session from 'express-session';
-import RedisStore from 'connect-redis';
-import redis from 'redis';
+import MongoStore from 'connect-mongo';
+import mongoose from 'mongoose';
 
-const redisClient = redis.createClient({
-  url: process.env.REDIS_URL, // Ensure this is set in your environment variables
-});
+const mongoUrl = process.env.MONGODB_URI; // Ensure this is set in your environment variables
 
 const configureExpressSession = (app) => {
   app.use(session({
-    store: new RedisStore({ client: redisClient }),
+    store: MongoStore.create({ mongoUrl }),
     secret: process.env.COOKIE_SECRET,
     resave: false,
     saveUninitialized: false,
