@@ -27,9 +27,9 @@ app.use(express.json());
 // ];
 const allowedOrigins = process.env.ALLOWED_ORIGINS.split(',');
 app.use(cors({
-  // origin: 'https://expensetracker-frontend-ten.vercel.app',
-  
-  origin: allowedOrigins,
+  origin: 'https://expensetracker-frontend-ten.vercel.app',
+
+  // origin: allowedOrigins,
   credentials: true,
 }));
 
