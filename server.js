@@ -25,15 +25,13 @@ app.use(express.json());
 //   'http://localhost:5173',
 //   'https://expensetracker-frontend-ten.vercel.app/',
 // ];
-// const allowedOrigins = process.env.ALLOWED_ORIGINS.split(',');
-// app.use(cors({
-//   // origin: 'https://expensetracker-frontend-ten.vercel.app',
-//   origin: allowedOrigins,
-//   credentials: true,
-// }));
-
-const allowedOrigins = ['http://localhost:3000', 'http://localhost:5173']; // Add frontend URL
-app.use(cors({ origin: allowedOrigins, credentials: true }));
+const allowedOrigins = process.env.ALLOWED_ORIGINS.split(',');
+app.use(cors({
+  // origin: 'https://expensetracker-frontend-ten.vercel.app',
+  
+  origin: allowedOrigins,
+  credentials: true,
+}));
 
 app.use(cookieParser());
 
@@ -69,5 +67,5 @@ const PORT = process.env.PORT || 7000;
 
 // Listen to the server
 app.listen(PORT, () => {
-  console.log(`Server running at http://localhost/${PORT}`);
+  console.log(`Server running at ${PORT}`);
 });
