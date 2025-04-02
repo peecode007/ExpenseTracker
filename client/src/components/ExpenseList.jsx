@@ -3,6 +3,7 @@ import CreateExpense from './CreateExpense';
 import toast from 'react-hot-toast';
 import { format } from 'date-fns';
 import { useTheme } from '@/components/themeProvider'; // Import useTheme hook from your theme provider
+import API_URI from '@/config';
 
 const ExpenseList = () => {
     const { theme } = useTheme(); // Get the current theme
@@ -10,7 +11,7 @@ const ExpenseList = () => {
 
     const getExpenses = async () => {
         try {
-            const host = 'http://localhost:7000';
+            const host = API_URI;
             const res = await fetch(`${host}/dashboard/expenses/get-expense`, {
                 method: 'GET',
                 headers: {
@@ -34,7 +35,7 @@ const ExpenseList = () => {
     };
 
     const getExpensesForBudget = async (budgetId) => {
-        const host = 'http://localhost:7000';
+        const host = API_URI;
         try {
             const res = await fetch(`${host}/dashboard/expenses/${budgetId}`, {
                 method: 'GET',
@@ -59,7 +60,7 @@ const ExpenseList = () => {
 
     const handleAddExpense = async (newExpense) => {
         try {
-            const host = 'http://localhost:7000';
+            const host = API_URI;
             const res = await fetch(`${host}/dashboard/expenses/add-expense`, {
                 method: 'POST',
                 headers: {

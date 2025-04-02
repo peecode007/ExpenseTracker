@@ -9,6 +9,7 @@ import Update_Budget from './components/Update_Budget';
 import AuthTabs from './pages/Auth/AuthTabs';
 import { Toaster } from 'react-hot-toast';
 
+
 function App() {
   return (
     <>

@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import  toast  from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import API_URI from '@/config';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -13,7 +14,8 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    const host = 'http://localhost:7000';
+    // const host = import.meta.env.VITE_API_URI;
+    const host = API_URI;
     try {
       const response = await fetch(`${host}/api/auth/login`, {
         method: 'POST',
@@ -25,7 +27,7 @@ const Login = () => {
       });
 
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
 
       if (data.success) {
         toast.success(data.message);

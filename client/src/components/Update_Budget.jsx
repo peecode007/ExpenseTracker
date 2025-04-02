@@ -4,16 +4,18 @@ import { useTheme } from '@/components/themeProvider';
 import { format } from 'date-fns';
 import SideNavbar from '@/layout/SideNavbar';
 import { ModeToggle } from '@/components/ModeToggle';
-
 import toast from 'react-hot-toast';
 import CreateBudgetExpense from './CreateBudgetExpense';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import AddCategory from './AddCategory';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
+import API_URI from '@/config';
 
 const BudgetDetail = () => {
     const { theme } = useTheme();
     const { bid } = useParams();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const [budget, setBudget] = useState({});
     const [expenses, setExpenses] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -27,7 +29,7 @@ const BudgetDetail = () => {
 
     // Fetching budget details
     const getBudgetDetails = async () => {
-        const host = 'http://localhost:7000';
+        const host = API_URI;
         try {
             const res = await fetch(`${host}/dashboard/budgets/${bid}`, {
                 method: 'GET',
@@ -37,7 +39,6 @@ const BudgetDetail = () => {
                 credentials: 'include',
             });
             const data = await res.json();
-            // console.log('Budget Details Response:', data);
             if (data.success) {
                 setBudget(data.budget);
             } else {
@@ -51,7 +52,7 @@ const BudgetDetail = () => {
 
     // Fetching expenses
     const getExpenses = async () => {
-        const host = 'http://localhost:7000';
+        const host = API_URI;
         try {
             const res = await fetch(`${host}/dashboard/expenses/${bid}`, {
                 method: 'GET',
@@ -61,7 +62,6 @@ const BudgetDetail = () => {
                 credentials: 'include',
             });
             const data = await res.json();
-            // console.log('Expenses Response:', data);
             if (data.success) {
                 setExpenses(data.expenses);
                 setLoading(false);
@@ -83,7 +83,7 @@ const BudgetDetail = () => {
     // Fetching categories
     const getCategories = async () => {
         try {
-            const host = "http://localhost:7000";
+            const host = API_URI;
             const res = await fetch(`${host}/dashboard/categories/budget-categories`, {
                 method: 'GET',
                 headers: {
@@ -92,9 +92,7 @@ const BudgetDetail = () => {
                 credentials: 'include',
             });
             const data = await res.json();
-            // console.log(data);
             if (data.success) {
-                // toast.success(data.message || "Category retrieved successfully.");
                 setCategories(data.categories);
             } else {
                 toast.error(data.message || "Error fetching category.");
@@ -107,7 +105,7 @@ const BudgetDetail = () => {
 
     useEffect(() => {
         getCategories();
-    }, [])
+    }, []);
 
     // Function to handle category change
     const handleCategoryChange = (value) => {
@@ -120,7 +118,7 @@ const BudgetDetail = () => {
     // Function to handle adding new categories
     const handleAddCategory = async (newCategory) => {
         try {
-            const host = "http://localhost:7000";
+            const host = API_URI;
             const res = await fetch(`${host}/dashboard/categories/add-budget-categories`, {
                 method: 'POST',
                 headers: {
@@ -130,7 +128,6 @@ const BudgetDetail = () => {
                 body: JSON.stringify(newCategory),
             });
             const data = await res.json();
-            // console.log(data);
             if (data.success) {
                 toast.success(data.message || "Category added successfully.");
                 setCategories(data.categories);
@@ -146,18 +143,17 @@ const BudgetDetail = () => {
     // Function to handle budget update
     const handleBudgetUpdate = async (e) => {
         e.preventDefault();
-        const host = 'http://localhost:7000';
+        const host = API_URI;
         try {
             const res = await fetch(`${host}/dashboard/budgets/update-budget/${bid}`, {
                 method: 'PUT',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
                 credentials: 'include',
                 body: JSON.stringify(budget)
             });
             const data = await res.json();
-            // console.log(data);
             if (data.success) {
                 toast.success(data.message || 'Budget updated successfully');
                 setNewBudget(data.budget);
@@ -169,6 +165,48 @@ const BudgetDetail = () => {
             console.error('Error updating budget:', error);
             toast.error('Failed to update budget');
         }
+    };
+
+    // Function to handle budget delete
+    const handleDelete = async () => {
+        const host = API_URI;
+        try {
+            const res = await fetch(`${host}/dashboard/budgets/delete-budget/${bid}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+            });
+            const data = await res.json();
+            if (data.success) {
+                toast.success(data.message || 'Budget deleted successfully');
+                navigate('/dashboard/budgets');
+            } else {
+                toast.error(data.message || 'Failed to delete budget');
+            }
+        } catch (error) {
+            console.error('Error deleting budget:', error);
+            toast.error('Failed to delete budget');
+        }
+    };
+
+    // Show confirmation dialog before deleting
+    const confirmDelete = () => {
+        confirmAlert({
+            title: 'Confirm to delete',
+            message: 'Are you sure you want to delete this budget?',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => handleDelete()
+                },
+                {
+                    label: 'No',
+                    onClick: () => { }
+                }
+            ],
+        });
     };
 
     // Define theme classes
@@ -223,7 +261,7 @@ const BudgetDetail = () => {
                                 <label className="mt-5">Amount:</label>
                                 <input type="number" name="budget" value={budget.budget} onChange={(e) => setBudget({ ...budget, budget: e.target.value })} className={`form-input mt-1 rounded-lg w-full p-3 ${themeClasses.inputBg} ${themeClasses.inputBorder}`} />
 
-                                <label className="mb-2">Category:</label>
+                                <label className="mb-2 mt-5">Category:</label>
                                 <Select onValueChange={handleCategoryChange} value={budget.category} required>
                                     <SelectTrigger id="category" className={themeClasses.inputBg}>
                                         <SelectValue placeholder="Select" />
@@ -241,8 +279,12 @@ const BudgetDetail = () => {
                                     </SelectContent>
                                 </Select>
 
-                                <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-8">Update Budget</button>
+                                <div className="flex space-x-4 mt-8">
+                                    <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Update Budget</button>
+                                    <button type="button" onClick={confirmDelete} className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">Delete Budget</button>
+                                </div>
                             </form>
+
                         </div>
                         {/* Add new expense form */}
                         <CreateBudgetExpense />

@@ -18,6 +18,7 @@ import toast from 'react-hot-toast';
 import { useTheme } from '@/components/themeProvider';
 import { format } from 'date-fns';
 import AddCategory from './AddCategory';
+import API_URI from '@/config';
 
 const CreateBudget = () => {
     const { theme } = useTheme();
@@ -64,7 +65,7 @@ const CreateBudget = () => {
 
     const getCategories = async () => {
         try {
-            const host = "http://localhost:7000";
+            const host = API_URI;
             const res = await fetch(`${host}/dashboard/categories/budget-categories`, {
                 method: 'GET',
                 headers: {
@@ -94,7 +95,7 @@ const CreateBudget = () => {
     // Define handleAddCategory function to handle adding new categories
     const handleAddCategory = async (newCategory) => {
         try {
-            const host = "http://localhost:7000";
+            const host = API_URI;
             const res = await fetch(`${host}/dashboard/categories/add-budget-categories`, {
                 method: 'POST',
                 headers: {
@@ -121,7 +122,7 @@ const CreateBudget = () => {
 
     const getBudgets = async () => {
         try {
-            const host = "http://localhost:7000";
+            const host = API_URI;
             const res = await fetch(`${host}/dashboard/budgets/get-budget`, {
                 method: 'GET',
                 headers: {
@@ -150,7 +151,7 @@ const CreateBudget = () => {
 
     const handleSubmit = async (e) => {
         // e.preventDefault();
-        const host = "http://localhost:7000";
+        const host = API_URI;
         try {
             const res = await fetch(`${host}/dashboard/budgets/add-budget`, {
                 method: 'POST',

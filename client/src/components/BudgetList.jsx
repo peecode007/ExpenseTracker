@@ -4,6 +4,8 @@ import { useTheme } from '@/components/themeProvider';
 import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import API_URI from '@/config';
+
 
 const BudgetList = () => {
     const { theme } = useTheme();
@@ -11,7 +13,7 @@ const BudgetList = () => {
     const [loading, setLoading] = useState(true);
 
     const getBudgets = async () => {
-        const host = 'http://localhost:7000';
+        const host = API_URI;
         try {
             const res = await fetch(`${host}/dashboard/budgets/get-budget`, {
                 method: 'GET',
@@ -40,7 +42,7 @@ const BudgetList = () => {
     };
 
     const getExpensesForBudget = async (budgetId) => {
-        const host = 'http://localhost:7000';
+        const host = API_URI;
         try {
             const res = await fetch(`${host}/dashboard/expenses/${budgetId}`, {
                 method: 'GET',

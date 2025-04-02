@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import API_URI from '@/config';
 
 const Signup = () => {
     const [email, setEmail] = useState('');
@@ -14,7 +15,7 @@ const Signup = () => {
 
     const handleSignup = async (e) => {
         e.preventDefault()
-        const host = 'http://localhost:7000';
+        const host = API_URI;
         try {
             const response = await fetch(`${host}/api/auth/signup`, {
                 method: 'POST',
@@ -24,11 +25,11 @@ const Signup = () => {
                 body: JSON.stringify({ email, password, username }),
             });
             const data = await response.json();
-            console.log(data);
+            // console.log(data);
 
             if (data.success) {
                 toast.success(data.message);
-                console.log(data)
+                // console.log(data)
                 // localStorage.setItem('token', data.authtoken);
                 navigate('api/auth/login');
             }
@@ -37,6 +38,7 @@ const Signup = () => {
             }
         } catch (error) {
             console.log(error)
+            console.error(error.message);
 
         }
     };

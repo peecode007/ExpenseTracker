@@ -12,7 +12,7 @@ const SideNavbar = () => {
     const isActive = (pathname) => location.pathname === pathname ? 'bg-indigo-400 text-white' : '';
 
     const handleLogout = async () => {
-        const host = 'http://localhost:7000';
+        const host = import.meta.env.VITE_API_URI;
         try {
             const response = await fetch(`${host}/api/auth/logout`, {
                 method: 'POST',
@@ -68,19 +68,19 @@ const SideNavbar = () => {
                         <h2 className="text-xl">Expenses</h2>
                     </div>
                 </Link>
-            <div className="mt-auto ">
-                <button
-                    className={`flex items-end p-3 hover:bg-indigo-400 cursor-pointer shadow-sm rounded-md gap-2 
+                <div className="mt-auto ">
+                    <button
+                        className={`flex items-end p-3 hover:bg-indigo-400 cursor-pointer shadow-sm rounded-md gap-2 
         ${theme === 'dark' ? 'border-2 border-white shadow-md' : 'bg-blue-50 text-black border-2 border-gray-200'}`}
-                    onClick={handleLogout}
-                    style={{ fontSize: '0.75rem' }}
-                >
+                        onClick={handleLogout}
+                        style={{ fontSize: '0.75rem' }}
+                    >
 
-                    <CiLogout />
+                        <CiLogout />
 
-                    <h2 className="text-md font-bold">Logout</h2>
-                </button>
-            </div>
+                        <h2 className="text-md font-bold">Logout</h2>
+                    </button>
+                </div>
             </div>
         </div>
     );

@@ -66,6 +66,7 @@ async function loginUser(req, res) {
                 message: "Logged in!",
                 user: req.session.user
             });
+            
         } else {
             return res.status(403).json({
                 success: false, message: "Invalid credentials!"
@@ -77,6 +78,7 @@ async function loginUser(req, res) {
             success: false, message: "Internal server error!"
         });
     }
+    
 }
 
 async function logoutUser(req, res) {

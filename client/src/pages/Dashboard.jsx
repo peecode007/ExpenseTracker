@@ -5,6 +5,7 @@ import { TbPigMoney, TbReportMoney } from "react-icons/tb";
 import { PiWalletBold } from "react-icons/pi";
 import BudgetChart from '@/components/BudgetChart';
 import { useParams } from 'react-router-dom';
+import API_URI from '@/config';
 
 const App = () => {
     const [budgets, setBudgets] = useState([]);
@@ -12,7 +13,7 @@ const App = () => {
     const {bid} = useParams()
 
     const getBudgets = async () => {
-        const host = 'http://localhost:7000';
+        const host = API_URI;
         try {
             const res = await fetch(`${host}/dashboard/budgets/get-budget`, {
                 method: 'GET',
@@ -40,7 +41,7 @@ const App = () => {
     };
 
     const getExpensesForBudget = async (budgetId) => {
-        const host = 'http://localhost:7000';
+        const host = API_URI;
         try {
             const res = await fetch(`${host}/dashboard/expenses/${budgetId}`, {
                 method: 'GET',

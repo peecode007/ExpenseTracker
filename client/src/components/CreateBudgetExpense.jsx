@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 import AddCategory from './AddCategory';
 import { useTheme } from './themeProvider';
 import { useParams } from 'react-router-dom';
+import API_URI from '@/config';
 
 const CreateBudgetExpense = () => {
     const { theme } = useTheme();
@@ -41,7 +42,7 @@ const CreateBudgetExpense = () => {
 
     const getCategories = async () => {
         try {
-            const host = "http://localhost:7000";
+            const host = API_URI;
             const res = await fetch(`${host}/dashboard/categories/expense-categories`, {
                 method: 'GET',
                 headers: {
@@ -71,7 +72,7 @@ const CreateBudgetExpense = () => {
 
     const handleAddExpense = async (e) => {
         // e.preventDefault();
-        const host = 'http://localhost:7000';
+        const host = API_URI;
         try {
             const res = await fetch(`${host}/dashboard/expenses/add/${bid}`, {
                 method: 'POST',
@@ -103,7 +104,7 @@ const CreateBudgetExpense = () => {
 
     const handleAddCategory = async (newCategory) => {
         try {
-            const host = "http://localhost:7000";
+            const host = API_URI;
             const res = await fetch(`${host}/dashboard/categories/add-expense-categories`, {
                 method: 'POST',
                 headers: {

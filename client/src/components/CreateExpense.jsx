@@ -16,6 +16,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import toast from 'react-hot-toast';
 import AddCategory from './AddCategory'; // Import AddCategory component
+import API_URI from '@/config';
 
 const CreateExpense = () => {
     const { theme } = useTheme();
@@ -62,7 +63,7 @@ const CreateExpense = () => {
 
     const getCategories = async () => {
         try {
-            const host = "http://localhost:7000";
+            const host = API_URI;
             const res = await fetch(`${host}/dashboard/categories/expense-categories`, {
                 method: 'GET',
                 headers: {
@@ -92,7 +93,7 @@ const CreateExpense = () => {
     // Define handleAddCategory function to handle adding new categories
     const handleAddCategory = async (newCategory) => {
         try {
-            const host = "http://localhost:7000";
+            const host = API_URI;
             const res = await fetch(`${host}/dashboard/categories/add-expense-categories`, {
                 method: 'POST',
                 headers: {
@@ -120,7 +121,7 @@ const CreateExpense = () => {
 
     const getExpenses = async () => {
         try {
-            const host = "http://localhost:7000";
+            const host = API_URI;
             const res = await fetch(`${host}/dashboard/expenses/get-expense`, {
                 method: 'GET',
                 headers: {
@@ -151,7 +152,7 @@ const CreateExpense = () => {
     const handleSubmit = async (e) => {
         // e.preventDefault();
         try {
-            const host = "http://localhost:7000";
+            const host = API_URI;
             const res = await fetch(`${host}/dashboard/expenses/add-expense`, {
                 method: 'POST',
                 headers: {
