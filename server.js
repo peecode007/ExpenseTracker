@@ -41,6 +41,9 @@ app.use(cors({
   credentials: true,
 }));
 
+app.set('trust proxy', 1); // Trust first proxy (required by Render to detect HTTPS)
+
+
 // ✅ Middleware
 app.use(express.json());
 app.use(cookieParser());
