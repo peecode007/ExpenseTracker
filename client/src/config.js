@@ -1,4 +1,5 @@
 // src/config.js
-const API_URI = 'http://localhost:3000'; // Replace with your actual API URI
+
+const API_URI = 'https://expense-tracker-mu-six-78.vercel.app/'; // Replace with your actual API URI
 
 export default API_URI;
