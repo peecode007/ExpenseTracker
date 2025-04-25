@@ -38,6 +38,7 @@ const Login = () => {
 
     } catch (error) {
       toast.error(`Error during login: ${error.message}`);
+      console.error('Error during login:', error);
     }
   };
 
