@@ -1,4 +1,4 @@
 // src/config.js
-const API_URI = 'https://expensetracker-wc39.onrender.com';
+const API_URI = 'http://localhost:3000'; // Replace with your actual API URI
 
 export default API_URI;

@@ -1,8 +1,7 @@
-// import hashPassword from "../middlewares/bcrypt.js";
 import User from "../models/userModel.js";
 import { comparePassword, hashPassword } from "../utils/authUtil.js";
-import bcrypt from 'bcrypt'
-import session from 'express-session'
+import bcrypt from 'bcrypt';
+import session from 'express-session';
 
 async function createUser(req, res) {
     if (!req.body || !req.body.email || !req.body.username || !req.body.password) {
@@ -12,16 +11,15 @@ async function createUser(req, res) {
     }
     try {
         const { email, username, password } = req.body;
-        //Checking if the user already exists in the database
-        const existingUser = await User.findOne({ email })
+        const existingUser = await User.findOne({ email });
         if (existingUser) {
-            return res.status(200).send({
-                success: true,
+            return res.status(409).json({
+                success: false,
                 message: 'User already exists. Please fill out login details.'
-            })
+            });
         }
 
-        const hashedPassword = await hashPassword(password)
+        const hashedPassword = await hashPassword(password);
         const newUser = await new User({
             username,
             email,
@@ -29,11 +27,10 @@ async function createUser(req, res) {
         }).save();
         return res.status(201).json({
             success: true, 
-            message: "Successfuly created account!",
+            message: "Successfully created account!",
             newUser
         });
     } catch (err) {
-        
         console.log("[UserController/createUser] Error: ", err);
         return res.status(500).json({
             success: false, message: "Internal server error!"
@@ -42,44 +39,66 @@ async function createUser(req, res) {
 }
 
 async function loginUser(req, res) {
-    
     try {
         const { email, password } = req.body;
+
+        // Validate input
         if (!email || !password) {
             return res.status(400).json({
-                success: false, message: "Invalid details!"
+                success: false,
+                message: "Invalid details!"
             });
         }
+
+        // Find user in the database
         const user = await User.findOne({ email });
         if (!user) {
             return res.status(404).json({
-                success: false, 
+                success: false,
                 message: "Account does not exist!"
             });
         }
-        const passwordMatch = await comparePassword(password, user.password)
+
+        // Compare passwords
+        const passwordMatch = await comparePassword(password, user.password);
         if (passwordMatch) {
+            // Set session user
             req.session.user = { email: email, username: user.username };
-            console.log(req.session)
-            return res.status(200).json({
-                success: true, 
-                message: "Logged in!",
-                user: req.session.user
+
+            // Save session
+            req.session.save((err) => {
+                if (err) {
+                    console.error("❌ Error saving session:", err);
+                    return res.status(500).json({
+                        success: false,
+                        message: "Failed to save session."
+                    });
+                }
+
+                // Send success response after session is saved
+                console.log("✅ Session saved successfully:", req.session.user);
+                return res.status(200).json({
+                    success: true,
+                    message: "Logged in!",
+                    user: req.session.user
+                });
             });
-            
         } else {
             return res.status(403).json({
-                success: false, message: "Invalid credentials!"
+                success: false,
+                message: "Invalid credentials!"
             });
         }
     } catch (err) {
         console.log("[UserController/loginUser] Error: ", err);
         return res.status(500).json({
-            success: false, message: "Internal server error!"
+            success: false,
+            message: "Internal server error!"
         });
     }
-    
 }
+
+
 
 async function logoutUser(req, res) {
     req.session.destroy(function (err) {

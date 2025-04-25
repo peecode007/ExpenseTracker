@@ -12,10 +12,10 @@ const configureExpressSession = (app) => {
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      sameSite: 'None', // Required for cross-origin requests
-      secure: process.env.NODE_ENV === 'production', // Ensure HTTPS
-      maxAge: 60 * 60 * 1000, // 1 hour
-    }
+      sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 1 hour
+    }    
   }));
 };
 

@@ -42,25 +42,34 @@ export const addBudgetController = async (req, res) => {
 
 export const getBudgetsController = async (req, res) => {
     try {
-        const { user } = req.session;
-
-        const budgets = await Budget.find({ user: user.email });
-
-        res.status(200).json({
-            success: true,
-            message: 'Budgets fetched successfully',
-            budgets
+      console.log('Session at getBudgetsController:', req.session);
+  
+      const { user } = req.session;
+  
+      if (!user || !user.email) {
+        return res.status(401).json({
+          success: false,
+          message: 'No user found in session',
         });
+      }
+  
+      const budgets = await Budget.find({ user: user.email });
+  
+      res.status(200).json({
+        success: true,
+        message: 'Budgets fetched successfully',
+        budgets
+      });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({
-            success: false,
-            message: 'Error getting budgets',
-            error: error.message
-        });
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        message: 'Error getting budgets',
+        error: error.message
+      });
     }
-};
-
+  };
+  
 export const updateBudgetController = async (req, res) => {
     try {
         const { budget, description, date, category } = req.body;

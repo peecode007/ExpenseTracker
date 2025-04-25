@@ -1,6 +1,4 @@
 import express from "express";
-// import authenticateSession from "../middlwares/auth.js";
-// import hashPassword from "../middlwares/bcrypt.js";
 import authController from "../controllers/authController.js";
 import authenticateSession from "../middlewares/auth.js";
 
