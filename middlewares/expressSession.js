@@ -13,7 +13,7 @@ const configureExpressSession = (app) => {
     cookie: {
       httpOnly: true,
       sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
-      secure: process.env.NODE_ENV === 'production',
+      secure: process.env.NODE_ENV === 'production' ? true : false,
       maxAge: 7 * 24 * 60 * 60 * 1000, // 1 hour
     }    
   }));
